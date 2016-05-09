@@ -29,11 +29,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="NSpec">
-      <HintPath>..\packages\nspec.1.0.5\lib\NSpec.dll</HintPath>
+      <HintPath>Libraries\NSpec\NSpec.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Libraries\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebuggerShim.cs" />
     <Compile Include="Entitas Tests\describe_RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\ICodeGeneratorDataProvider.cs" />
@@ -41,7 +43,6 @@
     <Compile Include="Entitas Implementation\PublicMemberInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Libraries\nunit.framework.dll" />
     <None Include="Libraries\NSpec\NSpec.dll" />
     <None Include="Libraries\NSpec\NSpec.dll.mdb" />

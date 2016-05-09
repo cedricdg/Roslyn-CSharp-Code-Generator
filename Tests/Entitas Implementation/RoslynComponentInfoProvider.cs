@@ -4,25 +4,25 @@ namespace Entitas
 {
     public class RoslynComponentInfoProvider : ICodeGeneratorDataProvider
     {
-        Type [] type;
-        string [] v;
-        string [] blueprintNames1;
+        Type [] _type;
+        string [] _poolNames;
+        string [] _blueprintNames;
 
         public string [] blueprintNames {
             get {
-                throw new NotImplementedException ();
+                return _blueprintNames;
             }
         }
 
         public ComponentInfo [] componentInfos {
             get {
-                throw new NotImplementedException ();
+                return null;
             }
         }
 
         public string [] poolNames {
             get {
-                throw new NotImplementedException ();
+                return _poolNames;
             }
         }
 
@@ -31,11 +31,11 @@ namespace Entitas
         {
         }
 
-        public RoslynComponentInfoProvider (Type [] type, string [] v, string [] blueprintNames1)
+        public RoslynComponentInfoProvider (Type [] type, string [] poolNames, string [] blueprintNames1)
         {
-            this.type = type;
-            this.v = v;
-            this.blueprintNames1 = blueprintNames1;
+            this._type = type;
+            this._poolNames = poolNames;
+            this._blueprintNames = blueprintNames1;
         }
     }
 }
