@@ -37,17 +37,17 @@ class describe_RoslynComponentInfoProvider : nspec
             };
         };
 
-        //context ["component infos"] = () => {
+        context ["component infos"] = () => {
 
-        //    it ["finds no components if there are no types which implement IComponent"] = () => {
-        //        var provider = createProviderWithTypes (typeof (object));
-        //        provider.componentInfos.should_be_empty ();
-        //    };
+            it ["finds no components if there are no types which implement IComponent"] = () => {
+                var provider = createProviderWithTypes (typeof (object));
+                provider.componentInfos.should_be_empty ();
+            };
 
-        //    it ["finds no components and ignores IComponent itself"] = () => {
-        //        var provider = createProviderWithTypes (typeof (IComponent));
-        //        provider.componentInfos.should_be_empty ();
-        //    };
+            //it ["finds no components and ignores IComponent itself"] = () => {
+            //    var provider = createProviderWithTypes (typeof (IComponent));
+            //    provider.componentInfos.should_be_empty ();
+            //};
 
         //    it ["finds no components and ignores interfaces"] = () => {
         //        var provider = createProviderWithTypes (typeof (AnotherComponentInterface));
@@ -206,7 +206,7 @@ class describe_RoslynComponentInfoProvider : nspec
         //        provider.componentInfos [0].fullTypeName.should_be ("ComponentA");
         //        provider.componentInfos [1].fullTypeName.should_be ("ComponentB");
         //    };
-        //};
+        };
 
         context ["blueprint names"] = () => {
             it ["has no blueprint names if empty"] = () => {

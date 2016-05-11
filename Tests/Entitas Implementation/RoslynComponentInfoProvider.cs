@@ -16,7 +16,7 @@ namespace Entitas
 
         public ComponentInfo [] componentInfos {
             get {
-                return null;
+                return new ComponentInfo[0];
             }
         }
 

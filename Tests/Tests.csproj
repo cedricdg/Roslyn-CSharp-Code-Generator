@@ -41,6 +41,8 @@
     <Compile Include="Entitas Implementation\ICodeGeneratorDataProvider.cs" />
     <Compile Include="Entitas Implementation\ComponentInfo.cs" />
     <Compile Include="Entitas Implementation\PublicMemberInfo.cs" />
+    <Compile Include="describe_SolutionParser.cs" />
+    <Compile Include="Fixtures\SolutionFixtures.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\nunit.framework.dll" />
@@ -59,6 +61,7 @@
   <ItemGroup>
     <Folder Include="Entitas Implementation\" />
     <Folder Include="Entitas Tests\" />
+    <Folder Include="Fixtures\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
