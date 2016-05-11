@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Build;
-using System.Runtime.Remoting.Messaging;
 
 namespace CSharpCodeGenerator
 {
