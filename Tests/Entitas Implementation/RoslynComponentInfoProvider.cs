@@ -10,7 +10,7 @@ namespace Entitas
 
         public string [] blueprintNames {
             get {
-                throw new NotImplementedException ();
+                return _blueprintNames;
             }
         }
 
@@ -22,7 +22,7 @@ namespace Entitas
 
         public string [] poolNames {
             get {
-                throw new NotImplementedException ();
+                return _poolNames;
             }
         }
 

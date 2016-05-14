@@ -20,7 +20,7 @@ class describe_RoslynComponentInfoProvider : nspec
         return new RoslynComponentInfoProvider (new [] { typeof (object) }, new string [0], blueprintNames);
     }
     
-    void when_providing ()
+    void when_providing () 
     {
         context ["pool names"] = () => {
             it ["has no pool names if empty"] = () => {
@@ -208,12 +208,12 @@ class describe_RoslynComponentInfoProvider : nspec
         //};
 
         context ["blueprint names"] = () => {
-            xit ["has no blueprint names if empty"] = () => {
+            it ["has no blueprint names if empty"] = () => {
                 var provider = createProviderWithBlueprintNames ();
                 provider.blueprintNames.should_be_empty ();
-            };
+            }; 
 
-            xit ["has blueprint names if set"] = () => {
+            it ["has blueprint names if set"] = () => {
                 var provider = createProviderWithBlueprintNames ("My Blueprint1", "My Blueprint2");
                 provider.blueprintNames.Length.should_be (2);
                 provider.blueprintNames [0].should_be ("My Blueprint1");
