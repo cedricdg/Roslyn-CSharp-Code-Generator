@@ -16,7 +16,7 @@ namespace Entitas
 
         public ComponentInfo [] componentInfos {
             get {
-                throw new NotImplementedException ();
+                return new ComponentInfo[0];
             }
         }
 
