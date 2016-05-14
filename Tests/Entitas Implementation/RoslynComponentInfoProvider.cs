@@ -5,8 +5,8 @@ namespace Entitas
     public class RoslynComponentInfoProvider : ICodeGeneratorDataProvider
     {
         Type [] type;
-        string [] v;
-        string [] blueprintNames1;
+        string [] _poolNames;
+        string [] _blueprintNames;
 
         public string [] blueprintNames {
             get {
@@ -31,11 +31,11 @@ namespace Entitas
         {
         }
 
-        public RoslynComponentInfoProvider (Type [] type, string [] v, string [] blueprintNames1)
+        public RoslynComponentInfoProvider (Type [] type, string [] poolNames, string [] blueprintNames)
         {
             this.type = type;
-            this.v = v;
-            this.blueprintNames1 = blueprintNames1;
+            _poolNames = poolNames;
+            _blueprintNames = blueprintNames;
         }
     }
 }
