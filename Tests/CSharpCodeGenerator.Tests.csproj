@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>CSharpCodeGenerator.Tests</RootNamespace>
+    <AssemblyName>CSharpCodeGenerator.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,18 +27,21 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\nunit.framework.dll</HintPath>
+    <Reference Include="NSpec, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\nspec.1.0.5\lib\NSpec.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="NSpec">
-      <HintPath>..\packages\nspec.1.0.5\lib\NSpec.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebuggerShim.cs" />
     <Compile Include="Entitas Tests\describe_RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\ICodeGeneratorDataProvider.cs" />
@@ -45,13 +49,8 @@
     <Compile Include="Entitas Implementation\PublicMemberInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Libraries\nunit.framework.dll" />
-    <None Include="Libraries\NSpec\NSpec.dll" />
-    <None Include="Libraries\NSpec\NSpec.dll.mdb" />
-    <None Include="Libraries\NSpec\NSpecRunner.exe" />
-    <None Include="Libraries\NSpec\NSpecRunner.exe.config" />
-    <None Include="Libraries\NSpec\NSpecRunner.exe.mdb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSharpCodeGenerator.csproj">
@@ -59,6 +58,12 @@
       <Name>CSharpCodeGenerator</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>echo "Running tests..."
+nspecrunner CSharpCodeGenerator.Tests.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>

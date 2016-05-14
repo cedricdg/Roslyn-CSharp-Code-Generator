@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCodeGenerator", "CSharpCodeGenerator.csproj", "{4371EA70-9D22-481F-BA10-AF256394214D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpCodeGenerator.Tests", "Tests\CSharpCodeGenerator.Tests.csproj", "{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +20,9 @@ Global
 		{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}.Debug|x86.Build.0 = Debug|Any CPU
 		{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}.Release|x86.ActiveCfg = Release|Any CPU
 		{5FAB2364-7086-4269-AD3E-5E8D2913A9B4}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -38,7 +42,7 @@ Global
 		$4.IncludeInNewFiles = True
 		$0.NameConventionPolicy = $5
 		$5.Rules = $6
-		$6.NamingRule = $7
+		$6.NamingRule = $25
 		$7.Name = Constants (local)
 		$7.AffectedEntity = LocalConstant
 		$7.VisibilityMask = VisibilityMask
@@ -49,7 +53,6 @@ Global
 		$26.String = T
 		$7.RequiredSuffixes = $27
 		$27.String = Exception
-		$6.NamingRule = $8
 		$8.Name = Interfaces
 		$8.RequiredPrefixes = $9
 		$9.String = I
@@ -58,7 +61,6 @@ Global
 		$8.NamingStyle = PascalCase
 		$8.IncludeInstanceMembers = True
 		$8.IncludeStaticEntities = True
-		$6.NamingRule = $10
 		$10.Name = Attributes
 		$10.RequiredSuffixes = $11
 		$11.String = Attribute
@@ -67,7 +69,6 @@ Global
 		$10.NamingStyle = PascalCase
 		$10.IncludeInstanceMembers = True
 		$10.IncludeStaticEntities = True
-		$6.NamingRule = $12
 		$12.Name = Event Args
 		$12.RequiredSuffixes = $13
 		$13.String = EventArgs
@@ -76,7 +77,6 @@ Global
 		$12.NamingStyle = PascalCase
 		$12.IncludeInstanceMembers = True
 		$12.IncludeStaticEntities = True
-		$6.NamingRule = $14
 		$14.Name = Exceptions
 		$14.RequiredSuffixes = $15
 		$15.String = Exception
@@ -85,14 +85,12 @@ Global
 		$14.NamingStyle = PascalCase
 		$14.IncludeInstanceMembers = True
 		$14.IncludeStaticEntities = True
-		$6.NamingRule = $16
 		$16.Name = camelCase
 		$16.AffectedEntity = Property, Parameter, LambdaParameter, LocalVariable
 		$16.VisibilityMask = VisibilityMask
 		$16.NamingStyle = CamelCaseWithLowerLetterUnderscore
 		$16.IncludeInstanceMembers = True
 		$16.IncludeStaticEntities = True
-		$6.NamingRule = $17
 		$17.Name = Fields (non public)
 		$17.RequiredPrefixes = $18
 		$18.String = _
@@ -101,28 +99,24 @@ Global
 		$17.NamingStyle = CamelCase
 		$17.IncludeInstanceMembers = True
 		$17.IncludeStaticEntities = True
-		$6.NamingRule = $19
 		$19.Name = Fields
 		$19.AffectedEntity = Field, ReadonlyField
 		$19.VisibilityMask = Public
 		$19.NamingStyle = CamelCase
 		$19.IncludeInstanceMembers = True
 		$19.IncludeStaticEntities = True
-		$6.NamingRule = $20
 		$20.Name = Methods (public)
 		$20.AffectedEntity = Methods
 		$20.VisibilityMask = Public
 		$20.NamingStyle = PascalCase
 		$20.IncludeInstanceMembers = True
 		$20.IncludeStaticEntities = True
-		$6.NamingRule = $21
 		$21.Name = Methods
 		$21.AffectedEntity = Methods
 		$21.VisibilityMask = Private, Internal, Protected
 		$21.NamingStyle = CamelCase
 		$21.IncludeInstanceMembers = True
 		$21.IncludeStaticEntities = True
-		$6.NamingRule = $22
 		$22.Name = Type Parameters
 		$22.RequiredPrefixes = $23
 		$23.String = T
@@ -131,14 +125,12 @@ Global
 		$22.NamingStyle = PascalCase
 		$22.IncludeInstanceMembers = True
 		$22.IncludeStaticEntities = True
-		$6.NamingRule = $24
 		$24.Name = Constants
 		$24.AffectedEntity = ConstantField
 		$24.VisibilityMask = VisibilityMask
 		$24.NamingStyle = AllUpper
 		$24.IncludeInstanceMembers = True
 		$24.IncludeStaticEntities = True
-		$6.NamingRule = $25
 		$25.Name = Constants (local)
 		$25.AffectedEntity = LocalConstant
 		$25.VisibilityMask = VisibilityMask
