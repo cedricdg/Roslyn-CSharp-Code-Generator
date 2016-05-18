@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entitas
+namespace CSharpCodeGenerator.DataStructures
 {
-    class IComponent
+    class FieldStructure : DataStructure
     {
     }
 }

@@ -29,11 +29,15 @@
     <ExternalConsole>true</ExternalConsole>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <ItemGroup />
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="DataStructures\ClassStructure.cs" />
+    <Compile Include="DataStructures\DataStructure.cs" />
+    <Compile Include="DataStructures\DocumentStructure.cs" />
+    <Compile Include="DataStructures\FieldStructure.cs" />
+    <Compile Include="DataStructures\MethodStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interfaces\TestInterface.cs" />
+    <Compile Include="CompilationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

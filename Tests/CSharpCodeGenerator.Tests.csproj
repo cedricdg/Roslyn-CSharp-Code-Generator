@@ -39,6 +39,22 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.2.1\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Extensions.1.0.0\lib\portable45-net45+win8\Microsoft.CodeAnalysis.CSharp.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.2.1\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.2.1\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.2.1\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NSpec, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\nspec.1.0.5\lib\NSpec.dll</HintPath>
       <Private>True</Private>
@@ -52,18 +68,82 @@
       <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Composition.AttributedModel, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Reflection.Metadata, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entitas Fixtures\IComponent.cs" />
+    <Compile Include="describe_ClassStructure.cs" />
+    <Compile Include="describe_DocumentStructure.cs" />
+    <Compile Include="describe_CompilationExtensions.cs" />
+    <Compile Include="Entitas Fixtures\Classes\CustomName.cs" />
+    <Compile Include="Entitas Fixtures\Classes\ISomeInterface.cs" />
+    <Compile Include="Entitas Fixtures\Classes\SomeClass.cs" />
+    <Compile Include="Entitas Fixtures\Classes\SomeGenericClass.cs" />
+    <Compile Include="Entitas Fixtures\Classes\SomeOtherClass.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\AComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\BComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\CComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\DComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\EComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components in multiple pools\FComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\AbstractComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\AnimatingComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\AnotherComponentInterface.cs" />
+    <Compile Include="Entitas Fixtures\Components\ComponentA.cs" />
+    <Compile Include="Entitas Fixtures\Components\Components.cs" />
+    <Compile Include="Entitas Fixtures\Components\ComponentWithFieldsAndProperties.cs" />
+    <Compile Include="Entitas Fixtures\Components\CustomPrefixComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\DontGenerateComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\DontGenerateIndexComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\GeneratedComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\MovableComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\NameAgeComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\NamespaceComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\OtherPoolComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\PersonComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\SomeComponent.cs" />
+    <Compile Include="Entitas Fixtures\Components\UserComponent.cs" />
+    <Compile Include="Entitas Fixtures\Generated\ComponentIds.cs" />
+    <Compile Include="Entitas Fixtures\Generated\OtherComponentIds.cs" />
+    <Compile Include="Entitas Fixtures\Generated\PoolAComponentIds.cs" />
+    <Compile Include="Entitas Fixtures\Generated\PoolBComponentIds.cs" />
+    <Compile Include="Entitas Fixtures\Generated\PoolCComponentIds.cs" />
+    <Compile Include="Entitas Fixtures\Serialization\ComponentWithFields.cs" />
+    <Compile Include="Entitas Fixtures\Serialization\ComponentWithProperties.cs" />
+    <Compile Include="Entitas Fixtures\Serialization\NestedClass.cs" />
+    <Compile Include="Entitas Fixtures\Serialization\TestEnum.cs" />
+    <Compile Include="Entitas Fixtures\TestPoolAttribute.cs" />
+    <Compile Include="Entitas Implementation\ClassFieldDeclarationsWalker.cs" />
     <Compile Include="Entitas Tests\describe_RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\ICodeGeneratorDataProvider.cs" />
     <Compile Include="Entitas Implementation\ComponentInfo.cs" />
     <Compile Include="Entitas Implementation\PublicMemberInfo.cs" />
+    <Compile Include="Fixtures\MultipleClasses.cs" />
+    <Compile Include="Fixtures\PublicTestClass.cs" />
+    <Compile Include="TestsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -74,6 +154,10 @@
       <Project>{4371EA70-9D22-481F-BA10-AF256394214D}</Project>
       <Name>CSharpCodeGenerator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fixtures\CSharpCodeGenerator.TestFixtures.csproj">
+      <Project>{cffdb482-59f0-48f4-8e8c-d3d4ba5f8529}</Project>
+      <Name>CSharpCodeGenerator.TestFixtures</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -82,6 +166,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>echo "Running tests..."
