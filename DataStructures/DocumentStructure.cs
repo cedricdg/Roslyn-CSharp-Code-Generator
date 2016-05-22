@@ -14,12 +14,12 @@ namespace CSharpCodeGenerator.DataStructures
             _node = node;
         }
 
-        public ClassDeclarationSyntax[] Classes {
+        public ClassStructure[] Classes {
             get
             {
-                return _node.Members
+                return _node.DescendantNodes()
                     .Where(m => m.IsKind(SyntaxKind.ClassDeclaration))
-                    .Cast<ClassDeclarationSyntax>()
+                    .Select((node, index) => new ClassStructure(node as ClassDeclarationSyntax))
                     .ToArray();
             }
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using CSharpCodeGenerator;
 using CSharpCodeGenerator.DataStructures;
 using Entitas.Serialization;
 using Microsoft.CodeAnalysis;
@@ -12,6 +14,7 @@ namespace Entitas.CodeGenerator
 {
     public class RoslynComponentInfoProvider : ICodeGeneratorDataProvider
     {
+        private const string POOL_ATTRIBUTE_IDENTIFIER = "Pool";
         string[] _poolNames;
         string[] _blueprintNames;
         ComponentInfo[] _componentInfos;
@@ -53,8 +56,15 @@ namespace Entitas.CodeGenerator
             {
                 _workspace = MSBuildWorkspace.Create();
                 _project = project;
+
                 var compTask = project.GetCompilationAsync();
                 _compilation = compTask.Result;
+                var diagnostics = _compilation.GetDiagnostics();
+                foreach (var d in diagnostics)
+                {
+//                    Console.WriteLine(d.GetMessage());
+                }
+
                 _componentInfos = GetComponentInfos();
             }
         }
@@ -63,32 +73,56 @@ namespace Entitas.CodeGenerator
         {
             // get all syntax nodes where a class is defined
             // get all information from class
-            var diagnostics = _compilation.GetDiagnostics();
-            foreach (var d in diagnostics)
-            {
-                Console.WriteLine(d.GetMessage());
-            }
             var componentInfos = new List<ComponentInfo>();
             foreach (var syntaxTree in _compilation.SyntaxTrees)
             {
-
-                var semanticModel = _compilation.GetSemanticModel(syntaxTree);
-                componentInfos.Add(GetComponentInfoForSyntaxTree(semanticModel));
+                var document = new DocumentStructure(syntaxTree.GetCompilationUnitRoot());
+                Console.WriteLine(document.Classes.Length);
+                foreach (var classStructure in document.Classes)
+                {
+                    if (IsValidIComponentClass(classStructure))
+                    {
+                        componentInfos.Add(GetComponentInfo(classStructure));
+                    }
+                }
             }
             return componentInfos.ToArray();
         }
 
-        private ComponentInfo GetComponentInfoForSyntaxTree(SemanticModel semanticModel)
+        private bool IsValidIComponentClass(ClassStructure classNode)
         {
-            var document = new DocumentStructure(semanticModel.SyntaxTree.GetCompilationUnitRoot());
+            if (classNode.ModifierFlags.HasFlag(ModifierFlags.Abstract))
+                return false;
+            return true;
+        }
 
-            var classDeclarationNode = new ClassStructure(document.Classes.First());
-
-            var info = semanticModel.GetSymbolInfo(classDeclarationNode.Node);
-            var symbol = info.Symbol;
-            
-            return new ComponentInfo(classDeclarationNode.Node.Identifier.Text, new List<PublicMemberInfo>(), new string[0],
+        private ComponentInfo GetComponentInfo(ClassStructure classDeclarationNode)
+        {
+            var pools = GetPools(classDeclarationNode.Attributes);
+            var fullClassName = classDeclarationNode.FullClassName;
+            List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields);
+            return new ComponentInfo(fullClassName, publicMemberInfos, pools,
                 isSingleEntity: false, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
+        }
+
+        private List<PublicMemberInfo> GetPublicMemberInfos(FieldStructure[] fields)
+        {
+            var result = new List<PublicMemberInfo>();
+            foreach (var field in fields)
+            {
+//                new PublicMemberInfo();
+            }
+            return result;
+        }
+
+        private static string[] GetPools(AttributeStructure[] attributes)
+        {
+            return attributes.Where(a => a.Identifier.Equals(POOL_ATTRIBUTE_IDENTIFIER)).Select(GetPoolValueWithoutQuotes).ToArray();
+        }
+
+        private static string GetPoolValueWithoutQuotes(AttributeStructure attribute)
+        {
+            return attribute.Values.First().Replace("\"", string.Empty);
         }
     }
 }

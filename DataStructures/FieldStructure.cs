@@ -1,12 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    class FieldStructure : DataStructure
+    public class FieldStructure : DataStructure
     {
+        public readonly FieldDeclarationSyntax Node;
+        public FieldStructure(FieldDeclarationSyntax node)
+        {
+            Node = node;
+        }
+
+        public string Identifier => Node.Declaration.Variables.First().Identifier.ValueText;
+
+        public ModifierFlags ModifierFlags => Node.Modifiers.GetModifierFromTokenList();
+
+        public AccessModifier AccessModifier => Node.Modifiers.GetAccessModifierFromTokenList();
+
+        public Type GetTypeByCompilation(Compilation compilation)
+        {
+            var semanticModel = compilation.GetSemanticModel(Node.SyntaxTree);
+            var typeInfo = semanticModel.GetSpeculativeTypeInfo(Node.SpanStart, Node, SpeculativeBindingOption.BindAsTypeOrNamespace);
+            return typeInfo.ConvertedType as Type;
+        }
     }
 }

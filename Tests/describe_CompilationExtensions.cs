@@ -29,7 +29,7 @@ namespace CSharpCodeGenerator.Tests
 
                 it["should return declaration source code from type"] = () =>
                 {
-                    var definition = CompilationHelper.GetTypeDeclarationAsSyntaxNode(compilation, typeof(PublicTestClass).FullName);
+                    var definition = CompilationHelper.GetTypeDeclarationAsSyntaxNode(typeof(PublicTestClass).FullName, compilation);
                     var expectedTree = CSharpSyntaxTree.ParseText("public class PublicTestClass{public bool publicTestProperty;}");
 
                     NormalizeAndAssertNodes(definition, expectedTree.GetRoot());
@@ -37,7 +37,7 @@ namespace CSharpCodeGenerator.Tests
 
                 it["should only return declaration of type from file with multiple classes"] = () =>
                 {
-                    var definition = CompilationHelper.GetTypeDeclarationAsSyntaxNode(compilation, typeof(MultipleClassesClass1).FullName);
+                    var definition = CompilationHelper.GetTypeDeclarationAsSyntaxNode(typeof(MultipleClassesClass1).FullName, compilation);
                     var expectedTree = CSharpSyntaxTree.ParseText("public class MultipleClassesClass1{}");
 
                     NormalizeAndAssertNodes(definition, expectedTree.GetRoot());

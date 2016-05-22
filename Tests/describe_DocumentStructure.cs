@@ -2,6 +2,7 @@
 using CSharpCodeGenerator.DataStructures;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NSpec;
 
 namespace CSharpCodeGenerator.Tests.DataStructures
@@ -17,7 +18,10 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                     var tree = CSharpSyntaxTree.ParseText("class Testclass {}");
                     var document = new DocumentStructure(tree.GetCompilationUnitRoot());
                     var expectedNode =
-                        tree.GetRoot().DescendantNodes().Single(n => n.IsKind(SyntaxKind.ClassDeclaration));
+                        tree.GetRoot().DescendantNodes()
+                                            .Where(n => n.IsKind(SyntaxKind.ClassDeclaration))
+                                            .Select(n => new ClassStructure(n as ClassDeclarationSyntax))
+                                            .Single();
                     document.Classes.Length.should_be(1);
                     document.Classes.Single().should_be(expectedNode);
                 };
@@ -27,7 +31,10 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                     var tree = CSharpSyntaxTree.ParseText("class Testclass {}\nclass Testclass {}");
                     var document = new DocumentStructure(tree.GetCompilationUnitRoot());
                     var expectedNodes =
-                        tree.GetRoot().DescendantNodes().Where(n => n.IsKind(SyntaxKind.ClassDeclaration)).ToArray();
+                        tree.GetRoot().DescendantNodes()
+                                            .Where(n => n.IsKind(SyntaxKind.ClassDeclaration))
+                                            .Select(n => new ClassStructure(n as ClassDeclarationSyntax))
+                                            .ToArray();
                     document.Classes.Length.should_be(2);
                     document.Classes[0].should_be(expectedNodes[0]);
                     document.Classes[1].should_be(expectedNodes[1]);

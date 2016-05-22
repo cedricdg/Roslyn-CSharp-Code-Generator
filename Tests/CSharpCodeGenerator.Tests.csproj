@@ -94,9 +94,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="describe_AttributeStructure.cs" />
     <Compile Include="describe_ClassStructure.cs" />
     <Compile Include="describe_DocumentStructure.cs" />
     <Compile Include="describe_CompilationExtensions.cs" />
+    <Compile Include="describe_FieldStructure.cs" />
     <Compile Include="Entitas Fixtures\Classes\CustomName.cs" />
     <Compile Include="Entitas Fixtures\Classes\ISomeInterface.cs" />
     <Compile Include="Entitas Fixtures\Classes\SomeClass.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Entitas Fixtures\Components\AnimatingComponent.cs" />
     <Compile Include="Entitas Fixtures\Components\AnotherComponentInterface.cs" />
     <Compile Include="Entitas Fixtures\Components\ComponentA.cs" />
+    <Compile Include="Entitas Fixtures\Components\ComponentB.cs" />
     <Compile Include="Entitas Fixtures\Components\Components.cs" />
     <Compile Include="Entitas Fixtures\Components\ComponentWithFieldsAndProperties.cs" />
     <Compile Include="Entitas Fixtures\Components\CustomPrefixComponent.cs" />
@@ -135,7 +138,6 @@
     <Compile Include="Entitas Fixtures\Serialization\NestedClass.cs" />
     <Compile Include="Entitas Fixtures\Serialization\TestEnum.cs" />
     <Compile Include="Entitas Fixtures\TestPoolAttribute.cs" />
-    <Compile Include="Entitas Implementation\ClassFieldDeclarationsWalker.cs" />
     <Compile Include="Entitas Tests\describe_RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\RoslynComponentInfoProvider.cs" />
     <Compile Include="Entitas Implementation\ICodeGeneratorDataProvider.cs" />
