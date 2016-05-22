@@ -101,8 +101,9 @@ namespace Entitas.CodeGenerator
             var pools = GetPools(classDeclarationNode.Attributes);
             var fullClassName = classDeclarationNode.FullClassName;
             List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields);
+            var isSingleEntity = false;
             return new ComponentInfo(fullClassName, publicMemberInfos, pools,
-                isSingleEntity: false, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
+                isSingleEntity: isSingleEntity, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
         }
 
         private List<PublicMemberInfo> GetPublicMemberInfos(FieldStructure[] fields)
@@ -110,7 +111,10 @@ namespace Entitas.CodeGenerator
             var result = new List<PublicMemberInfo>();
             foreach (var field in fields)
             {
-//                new PublicMemberInfo();
+                if (field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None))
+                {
+                    result.Add(new PublicMemberInfo(field.GetFullMetadataNameByCompilation(_compilation), field.Identifier));
+                }
             }
             return result;
         }

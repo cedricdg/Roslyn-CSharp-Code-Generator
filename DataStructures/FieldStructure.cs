@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -18,11 +20,15 @@ namespace CSharpCodeGenerator.DataStructures
 
         public AccessModifier AccessModifier => Node.Modifiers.GetAccessModifierFromTokenList();
 
-        public Type GetTypeByCompilation(Compilation compilation)
+        public string GetFullMetadataNameByCompilation(Compilation compilation)
         {
-            var semanticModel = compilation.GetSemanticModel(Node.SyntaxTree);
-            var typeInfo = semanticModel.GetSpeculativeTypeInfo(Node.SpanStart, Node, SpeculativeBindingOption.BindAsTypeOrNamespace);
-            return typeInfo.ConvertedType as Type;
+            var semanticModel = compilation.GetSemanticModel(compilation.SyntaxTrees.First());
+            var typeInfo = semanticModel.GetSpeculativeTypeInfo(Node.SpanStart, Node.Declaration.Type, SpeculativeBindingOption.BindAsTypeOrNamespace);
+            var typeSymbol = typeInfo.Type;
+
+            var symbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+            string fullyQualifiedName = typeSymbol.ToDisplayString(symbolDisplayFormat);
+            return fullyQualifiedName;
         }
     }
 }

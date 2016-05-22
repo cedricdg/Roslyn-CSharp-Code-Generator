@@ -59,18 +59,22 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                 field.Identifier.should_be(identifier);
             };
 
-            it["returns string type form compilation"] = () =>
+            it["returns full string type form compilation"] = () =>
             {
                 var identifier = "testIdentifier";
                 var tree = CSharpSyntaxTree.ParseText($"class Testclass {{ public string {identifier} = 1; }}");
                 var field = new FieldStructure(tree.GetRoot().DescendantNodes().Single(n => n.IsKind(SyntaxKind.FieldDeclaration)) as FieldDeclarationSyntax);
 
                 var workspace = new AdhocWorkspace();
-                var project = workspace.AddProject("Test", LanguageNames.CSharp);
-                var document = project.AddDocument("Document", tree.GetRoot());
-                var compilation = document.Project.GetCompilationAsync().Result;
+                var mscorlib = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
+                var stringlib = MetadataReference.CreateFromFile(typeof(string).Assembly.Location);
+                var project = workspace.AddProject("Test", LanguageNames.CSharp)
+                                            .AddMetadataReference(mscorlib)
+                                            .AddMetadataReference(stringlib)
+                                            .AddDocument("Document", tree.GetRoot()).Project;
+                var compilation = project.GetCompilationAsync().Result;
 
-                field.GetTypeByCompilation(compilation).should_be(typeof(string));
+                field.GetFullMetadataNameByCompilation(compilation).should_be(typeof(string).FullName);
             };
         }
     }

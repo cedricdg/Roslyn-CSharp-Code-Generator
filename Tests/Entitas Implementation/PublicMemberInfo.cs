@@ -8,12 +8,24 @@ namespace Entitas.Serialization
     public class PublicMemberInfo
     {
 
-        public Type type { get { return _type; } }
+        public Type type
+        {
+            get
+            {
+                if (_type != null)
+                {
+                    return _type;
+                }
+                return Type.GetType(_fullMetadataTypeName);
+            }
+        }
+
         public string name { get { return _name; } }
 
         readonly FieldInfo _fieldInfo;
         readonly PropertyInfo _propertyInfo;
         readonly Type _type;
+        readonly string _fullMetadataTypeName;
         readonly string _name;
 
         public PublicMemberInfo (FieldInfo info)
@@ -35,6 +47,12 @@ namespace Entitas.Serialization
         public PublicMemberInfo (Type type, string name)
         {
             _type = type;
+            _name = name;
+        }
+
+        public PublicMemberInfo (string fullMetadataTypeName, string name)
+        {
+            _fullMetadataTypeName = fullMetadataTypeName;
             _name = name;
         }
 
