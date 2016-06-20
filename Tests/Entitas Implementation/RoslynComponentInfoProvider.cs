@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CSharpCodeGenerator;
 using CSharpCodeGenerator.DataStructures;
 using Entitas.Serialization;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.MSBuild;
 
 namespace Entitas.CodeGenerator
 {
@@ -18,9 +13,7 @@ namespace Entitas.CodeGenerator
         string[] _poolNames;
         string[] _blueprintNames;
         ComponentInfo[] _componentInfos;
-        private MSBuildWorkspace _workspace;
-        private Compilation _compilation;
-        private Project _project;
+        private ProjectStructure _project;
 
         public string[] blueprintNames
         {
@@ -47,23 +40,15 @@ namespace Entitas.CodeGenerator
         }
 
 
-        public RoslynComponentInfoProvider(Project project, string[] poolNames, string[] blueprintNames)
+        public RoslynComponentInfoProvider(ProjectStructure project, string[] poolNames, string[] blueprintNames)
         {
             _poolNames = poolNames;
             _blueprintNames = blueprintNames;
 
             if (project != null)
             {
-                _workspace = MSBuildWorkspace.Create();
                 _project = project;
-
-                var compTask = project.GetCompilationAsync();
-                _compilation = compTask.Result;
-                var diagnostics = _compilation.GetDiagnostics();
-                foreach (var d in diagnostics)
-                {
-//                    Console.WriteLine(d.GetMessage());
-                }
+                
 
                 _componentInfos = GetComponentInfos();
             }
@@ -74,10 +59,9 @@ namespace Entitas.CodeGenerator
             // get all syntax nodes where a class is defined
             // get all information from class
             var componentInfos = new List<ComponentInfo>();
-            foreach (var syntaxTree in _compilation.SyntaxTrees)
+            foreach (var document in _project.Documents)
             {
-                var document = new DocumentStructure(syntaxTree.GetCompilationUnitRoot());
-                Console.WriteLine(document.Classes.Length);
+                Console.WriteLine(document.Classes.Count());
                 foreach (var classStructure in document.Classes)
                 {
                     if (IsValidIComponentClass(classStructure))
@@ -102,26 +86,26 @@ namespace Entitas.CodeGenerator
             var fullClassName = classDeclarationNode.FullClassName;
             List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields);
             var isSingleEntity = false;
-            return new ComponentInfo(fullClassName, publicMemberInfos, pools,
+            return new ComponentInfo(fullClassName, publicMemberInfos, pools.ToArray(),
                 isSingleEntity: isSingleEntity, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
         }
 
-        private List<PublicMemberInfo> GetPublicMemberInfos(FieldStructure[] fields)
+        private List<PublicMemberInfo> GetPublicMemberInfos(IEnumerable<FieldStructure> fields)
         {
             var result = new List<PublicMemberInfo>();
             foreach (var field in fields)
             {
                 if (field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None))
                 {
-                    result.Add(new PublicMemberInfo(field.GetFullMetadataNameByCompilation(_compilation), field.Identifier));
+                    result.Add(new PublicMemberInfo(_project.GetFullMetadataName(field), field.Identifier));
                 }
             }
             return result;
         }
 
-        private static string[] GetPools(AttributeStructure[] attributes)
+        private static IEnumerable<string> GetPools(IEnumerable<AttributeStructure> attributes)
         {
-            return attributes.Where(a => a.Identifier.Equals(POOL_ATTRIBUTE_IDENTIFIER)).Select(GetPoolValueWithoutQuotes).ToArray();
+            return attributes.Where(a => a.Identifier.Equals(POOL_ATTRIBUTE_IDENTIFIER)).Select(GetPoolValueWithoutQuotes);
         }
 
         private static string GetPoolValueWithoutQuotes(AttributeStructure attribute)
