@@ -18,15 +18,5 @@ namespace CSharpCodeGenerator.DataStructures
 
         public AccessModifier AccessModifier => Node.Modifiers.GetAccessModifierFromTokenList();
 
-        public string GetFullMetadataNameByCompilation(Compilation compilation)
-        {
-            var semanticModel = compilation.GetSemanticModel(compilation.SyntaxTrees.First());
-            var typeInfo = semanticModel.GetSpeculativeTypeInfo(Node.SpanStart, Node.Declaration.Type, SpeculativeBindingOption.BindAsTypeOrNamespace);
-            var typeSymbol = typeInfo.Type;
-
-            var symbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
-            string fullyQualifiedName = typeSymbol.ToDisplayString(symbolDisplayFormat);
-            return fullyQualifiedName;
-        }
     }
 }

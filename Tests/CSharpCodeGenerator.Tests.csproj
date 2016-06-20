@@ -98,6 +98,7 @@
     <Compile Include="describe_ClassStructure.cs" />
     <Compile Include="describe_DocumentStructure.cs" />
     <Compile Include="describe_CompilationExtensions.cs" />
+    <Compile Include="describe_ProjectStructure.cs" />
     <Compile Include="describe_FieldStructure.cs" />
     <Compile Include="Entitas Fixtures\Classes\CustomName.cs" />
     <Compile Include="Entitas Fixtures\Classes\ISomeInterface.cs" />
