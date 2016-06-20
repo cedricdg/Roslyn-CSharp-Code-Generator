@@ -16,9 +16,9 @@ namespace CSharpCodeGenerator.DataStructures
             _node = node;
         }
 
-        public FieldStructure[] Fields
+        public IEnumerable<FieldStructure> Fields
         {
-            get { return _node.ChildNodes().Where(n => n.IsKind(SyntaxKind.FieldDeclaration)).Select(n => new FieldStructure(n as FieldDeclarationSyntax)).ToArray(); }
+            get { return _node.ChildNodes().Where(n => n.IsKind(SyntaxKind.FieldDeclaration)).Select(n => new FieldStructure(n as FieldDeclarationSyntax)); }
         }
 
         public ClassDeclarationSyntax Node => _node;
@@ -33,21 +33,17 @@ namespace CSharpCodeGenerator.DataStructures
 
         public string Namespace => GetNameSpaceFromParentsRecursive(_node);
 
-        public AttributeStructure[] Attributes
+        public IEnumerable<AttributeStructure> Attributes
         {
             get
             {
-                var attributes = new List<AttributeStructure>();
                 foreach (var attributeLists in _node.AttributeLists)
                 {
                     foreach (var attribute in attributeLists.Attributes)
                     {
-                        attributes.Add(new AttributeStructure(attribute));
+                        yield return new AttributeStructure(attribute);
                     }
                 }
-
-                return attributes.ToArray();
-                
             }
         }
 

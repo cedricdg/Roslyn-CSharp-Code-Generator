@@ -30,9 +30,9 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                     var classStructure = CreateClassStructureFromTree(tree);
 
                     classStructure.Fields.should_not_be_null();
-                    classStructure.Fields.Length.should_be(2);
-                    classStructure.Fields[0].Node.should_be(expectedFieldDeclarations[0]);
-                    classStructure.Fields[1].Node.should_be(expectedFieldDeclarations[1]);
+                    classStructure.Fields.Count().should_be(2);
+                    classStructure.Fields.ElementAt(0).Node.should_be(expectedFieldDeclarations[0]);
+                    classStructure.Fields.ElementAt(1).Node.should_be(expectedFieldDeclarations[1]);
                 };
             };
 
@@ -125,7 +125,7 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                     var tree = CSharpSyntaxTree.ParseText($"class A {{  }}");
                     var classStructure = CreateClassStructureFromTree(tree);
 
-                    classStructure.Attributes.Length.should_be(0);
+                    classStructure.Attributes.Count().should_be(0);
                 };
 
                 it["returns array with correct attribute nodes"] = () =>
@@ -135,7 +135,7 @@ namespace CSharpCodeGenerator.Tests.DataStructures
 
                     var expectedAttributeNodes = tree.GetRoot().DescendantNodes().Where(n => n.IsKind(SyntaxKind.Attribute));
 
-                    classStructure.Attributes.Length.should_be(3);
+                    classStructure.Attributes.Count().should_be(3);
                     classStructure.Attributes.should_contain(attr => attr.Node.Equals(expectedAttributeNodes.ElementAt(0)));
                     classStructure.Attributes.should_contain(attr => attr.Node.Equals(expectedAttributeNodes.ElementAt(1)));
                     classStructure.Attributes.should_contain(attr => attr.Node.Equals(expectedAttributeNodes.ElementAt(2)));

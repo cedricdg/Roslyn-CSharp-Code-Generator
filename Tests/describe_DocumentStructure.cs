@@ -22,7 +22,7 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                                             .Where(n => n.IsKind(SyntaxKind.ClassDeclaration))
                                             .Select(n => new ClassStructure(n as ClassDeclarationSyntax))
                                             .Single();
-                    document.Classes.Length.should_be(1);
+                    document.Classes.Count().should_be(1);
                     document.Classes.Single().should_be(expectedNode);
                 };
 
@@ -35,9 +35,9 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                                             .Where(n => n.IsKind(SyntaxKind.ClassDeclaration))
                                             .Select(n => new ClassStructure(n as ClassDeclarationSyntax))
                                             .ToArray();
-                    document.Classes.Length.should_be(2);
-                    document.Classes[0].should_be(expectedNodes[0]);
-                    document.Classes[1].should_be(expectedNodes[1]);
+                    document.Classes.Count().should_be(2);
+                    document.Classes.ElementAt(0).should_be(expectedNodes[0]);
+                    document.Classes.ElementAt(1).should_be(expectedNodes[1]);
                 };
             };
         }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,13 +15,12 @@ namespace CSharpCodeGenerator.DataStructures
             _node = node;
         }
 
-        public ClassStructure[] Classes {
+        public IEnumerable<ClassStructure> Classes {
             get
             {
                 return _node.DescendantNodes()
                     .Where(m => m.IsKind(SyntaxKind.ClassDeclaration))
-                    .Select((node, index) => new ClassStructure(node as ClassDeclarationSyntax))
-                    .ToArray();
+                    .Select((node, index) => new ClassStructure(node as ClassDeclarationSyntax));
             }
         }
     }
