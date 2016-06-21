@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CSharpCodeGenerator.DataStructures;
@@ -33,22 +34,37 @@ namespace CSharpCodeGenerator.Tests.DataStructures
 
 
 
-            it["returns full string type form compilation"] = () =>
+            it["returns full string type from compilation"] = () =>
             {
-                var identifier = "testIdentifier";
-                var tree = CSharpSyntaxTree.ParseText($"class Testclass {{ public string {identifier} = 1; }}");
-                var field = new FieldStructure(tree.GetRoot().DescendantNodes().Single(n => n.IsKind(SyntaxKind.FieldDeclaration)) as FieldDeclarationSyntax);
+                var identifier1 = "testIdentifier1";
+                var identifier2 = "testIdentifier2";
+                var type1 = typeof(string);
+                var type2 = typeof(object);
+               
+                var tree1 = CSharpSyntaxTree.ParseText($"class Testclass1 {{ public {type1} {identifier1} = 1; }}");
+                var tree2 = CSharpSyntaxTree.ParseText($"class Testclass2 {{ public {type2} {identifier2} = 1; }}");
 
                 var workspace = new AdhocWorkspace();
-                var mscorlib = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
-                var stringlib = MetadataReference.CreateFromFile(typeof(string).Assembly.Location);
+                var mscorlib = MetadataReference.CreateFromFile(type1.Assembly.Location);
+                var stringlib = MetadataReference.CreateFromFile(type2.Assembly.Location);
                 var project = workspace.AddProject("Test", LanguageNames.CSharp)
                                             .AddMetadataReference(mscorlib)
                                             .AddMetadataReference(stringlib)
-                                            .AddDocument("Document", tree.GetRoot()).Project;
+                                            .AddDocument("Document1", tree1.GetRoot()).Project
+                                            .AddDocument("Document2", tree2.GetRoot()).Project;
+
                 var projectStructure = new ProjectStructure(project);
 
-                projectStructure.GetFullMetadataName(field).should_be(typeof(string).FullName);
+                var field1 = projectStructure.Documents.ElementAt(0).Classes.First().Fields.First();
+                var fullMetadataName1 = projectStructure.GetFullTypeName(field1.DeclarationType);
+
+                var field2 = projectStructure.Documents.ElementAt(1).Classes.First().Fields.First();
+                var fullMetadataName2 = projectStructure.GetFullTypeName(field2.DeclarationType);
+
+
+                fullMetadataName1.should_be(type1.FullName);
+                fullMetadataName2.should_be(type2.FullName);
+
             };
         }
     }

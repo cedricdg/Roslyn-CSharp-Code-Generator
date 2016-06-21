@@ -61,7 +61,6 @@ namespace Entitas.CodeGenerator
             var componentInfos = new List<ComponentInfo>();
             foreach (var document in _project.Documents)
             {
-                Console.WriteLine(document.Classes.Count());
                 foreach (var classStructure in document.Classes)
                 {
                     if (IsValidIComponentClass(classStructure))
@@ -77,7 +76,18 @@ namespace Entitas.CodeGenerator
         {
             if (classNode.ModifierFlags.HasFlag(ModifierFlags.Abstract))
                 return false;
-            return true;
+
+            var interfaceName = "Entitas.IComponent";
+
+            foreach (var baseType in classNode.BaseTypes)
+            {
+                var name = _project.GetFullTypeName(baseType);
+                if (name.Equals(interfaceName))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private ComponentInfo GetComponentInfo(ClassStructure classDeclarationNode)
@@ -97,7 +107,7 @@ namespace Entitas.CodeGenerator
             {
                 if (field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None))
                 {
-                    result.Add(new PublicMemberInfo(_project.GetFullMetadataName(field), field.Identifier));
+                    result.Add(new PublicMemberInfo(_project.GetFullTypeName(field.DeclarationType), field.Identifier));
                 }
             }
             return result;

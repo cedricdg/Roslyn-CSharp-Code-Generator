@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="describe_TypeStructure.cs" />
     <Compile Include="describe_AttributeStructure.cs" />
     <Compile Include="describe_ClassStructure.cs" />
     <Compile Include="describe_DocumentStructure.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Entitas Fixtures\Classes\CustomName.cs" />
     <Compile Include="Entitas Fixtures\Classes\ISomeInterface.cs" />
     <Compile Include="Entitas Fixtures\Classes\SomeClass.cs" />
+    <Compile Include="Entitas Fixtures\Classes\SomeClassWithWrongIComponent.cs" />
     <Compile Include="Entitas Fixtures\Classes\SomeGenericClass.cs" />
     <Compile Include="Entitas Fixtures\Classes\SomeOtherClass.cs" />
     <Compile Include="Entitas Fixtures\Components in multiple pools\AComponent.cs" />

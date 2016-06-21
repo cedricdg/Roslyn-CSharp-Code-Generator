@@ -45,6 +45,8 @@ namespace CSharpCodeGenerator.DataStructures
             }
         }
 
+        public IEnumerable<TypeStructure> BaseTypes => Node.BaseList.Types.Select(t => new TypeStructure(t.Type));
+
 
         private string GetNameSpaceFromParentsRecursive(ClassDeclarationSyntax node)
         {
