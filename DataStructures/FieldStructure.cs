@@ -4,13 +4,15 @@ namespace CSharpCodeGenerator.DataStructures
 {
     public class FieldStructure : DataStructure
     {
-        public readonly FieldDeclarationSyntax Node;
-        public FieldStructure(FieldDeclarationSyntax node)
+        internal readonly FieldDeclarationSyntax Node;
+        internal FieldStructure(FieldDeclarationSyntax node)
         {
             Node = node;
         }
 
         public string Identifier => Node.Declaration.Variables.First().Identifier.ValueText;
+
+        public TypeStructure DeclarationType => new TypeStructure(Node.Declaration.Type);
 
         public ModifierFlags ModifierFlags => Node.Modifiers.GetModifierFromTokenList();
 

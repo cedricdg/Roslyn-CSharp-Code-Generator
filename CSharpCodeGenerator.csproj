@@ -27,19 +27,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ExternalConsole>true</ExternalConsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DataStructures\AttributeStructure.cs" />
     <Compile Include="DataStructures\ClassStructure.cs" />
     <Compile Include="DataStructures\DataStructure.cs" />
     <Compile Include="DataStructures\DocumentStructure.cs" />
     <Compile Include="DataStructures\FieldStructure.cs" />
     <Compile Include="DataStructures\MethodStructure.cs" />
-    <Compile Include="ModifierFlags.cs" />
-    <Compile Include="CompilationHelper.cs" />
-    <Compile Include="ProjectStructure.cs" />
+    <Compile Include="DataStructures\TypeStructure.cs" />
+    <Compile Include="Helper\ModifierFlags.cs" />
+    <Compile Include="Helper\CompilationHelper.cs" />
+    <Compile Include="DataStructures\ProjectStructure.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

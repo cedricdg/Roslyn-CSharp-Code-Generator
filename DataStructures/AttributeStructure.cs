@@ -7,7 +7,7 @@ namespace CSharpCodeGenerator.DataStructures
     {
         public readonly AttributeSyntax Node;
 
-        public AttributeStructure(AttributeSyntax node)
+        internal AttributeStructure(AttributeSyntax node)
         {
             Node = node;
         }

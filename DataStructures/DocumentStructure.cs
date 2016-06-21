@@ -8,17 +8,17 @@ namespace CSharpCodeGenerator.DataStructures
 {
     public class DocumentStructure : DataStructure
     {
-        protected readonly CompilationUnitSyntax _node;
+        internal readonly CompilationUnitSyntax Node;
 
         public DocumentStructure(CompilationUnitSyntax node)
         {
-            _node = node;
+            Node = node;
         }
 
         public IEnumerable<ClassStructure> Classes {
             get
             {
-                return _node.DescendantNodes(n => !n.IsKind(SyntaxKind.ClassKeyword))
+                return Node.DescendantNodes(n => !n.IsKind(SyntaxKind.ClassKeyword))
                     .Where(m => m.IsKind(SyntaxKind.ClassDeclaration))
                     .Select((node, index) => new ClassStructure(node as ClassDeclarationSyntax));
             }
