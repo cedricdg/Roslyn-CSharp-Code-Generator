@@ -9,35 +9,33 @@ namespace CSharpCodeGenerator.DataStructures
 
     public class ClassStructure : DataStructure
     {
-        private readonly ClassDeclarationSyntax _node;
+        internal readonly ClassDeclarationSyntax Node;
 
-        public ClassStructure(ClassDeclarationSyntax node)
+        internal ClassStructure(ClassDeclarationSyntax node)
         {
-            _node = node;
+            Node = node;
         }
 
         public IEnumerable<FieldStructure> Fields
         {
-            get { return _node.ChildNodes().Where(n => n.IsKind(SyntaxKind.FieldDeclaration)).Select(n => new FieldStructure(n as FieldDeclarationSyntax)); }
+            get { return Node.ChildNodes().Where(n => n.IsKind(SyntaxKind.FieldDeclaration)).Select(n => new FieldStructure(n as FieldDeclarationSyntax)); }
         }
 
-        public ClassDeclarationSyntax Node => _node;
-
-        public ModifierFlags ModifierFlags => _node.Modifiers.GetModifierFromTokenList();
+        public ModifierFlags ModifierFlags => Node.Modifiers.GetModifierFromTokenList();
 
         public AccessModifier AccessModifier => Node.Modifiers.GetAccessModifierFromTokenList();
 
         public string FullClassName => Namespace == string.Empty ? ClassName : $"{Namespace}.{ClassName}";
 
-        public string ClassName => _node.Identifier.ToString();
+        public string ClassName => Node.Identifier.ToString();
 
-        public string Namespace => GetNameSpaceFromParentsRecursive(_node);
+        public string Namespace => GetNameSpaceFromParentsRecursive(Node);
 
         public IEnumerable<AttributeStructure> Attributes
         {
             get
             {
-                foreach (var attributeLists in _node.AttributeLists)
+                foreach (var attributeLists in Node.AttributeLists)
                 {
                     foreach (var attribute in attributeLists.Attributes)
                     {
@@ -83,7 +81,7 @@ namespace CSharpCodeGenerator.DataStructures
                 return base.Equals(obj);
             }
 
-            return _node.Equals(otherClassStruct._node);
+            return Node.Equals(otherClassStruct.Node);
         }
     }
 
