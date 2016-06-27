@@ -2,7 +2,7 @@
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    public class TypeStructure : DataStructure
+    public class TypeStructure : NodeStructure
     {
         public readonly TypeSyntax Node;
 

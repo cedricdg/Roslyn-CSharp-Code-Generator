@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="describe_ProjectWriter.cs" />
     <Compile Include="describe_TypeStructure.cs" />
     <Compile Include="describe_AttributeStructure.cs" />
     <Compile Include="describe_ClassStructure.cs" />

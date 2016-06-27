@@ -2,7 +2,7 @@
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    public class FieldStructure : DataStructure
+    public class FieldStructure : NodeStructure
     {
         internal readonly FieldDeclarationSyntax Node;
         internal FieldStructure(FieldDeclarationSyntax node)

@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    public class AttributeStructure : DataStructure
+    public class AttributeStructure : NodeStructure
     {
         public readonly AttributeSyntax Node;
 
@@ -12,10 +12,8 @@ namespace CSharpCodeGenerator.DataStructures
             Node = node;
         }
 
-        public string Identifier { get { return Node.Name.ToString(); } }
-        public string[] Values { get
-        {
-            return Node.ArgumentList.Arguments.Select(a => a.ToString()).ToArray();
-        } }
+        public string Identifier => Node.Name.ToString();
+
+        public string[] Values => Node.ArgumentList.Arguments.Select(a => a.ToString()).ToArray();
     }
 }

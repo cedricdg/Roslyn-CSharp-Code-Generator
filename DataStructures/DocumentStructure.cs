@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    public class DocumentStructure : DataStructure
+    public class DocumentStructure : NodeStructure
     {
         internal readonly CompilationUnitSyntax Node;
 

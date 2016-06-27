@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CSharpCodeGenerator.DataStructures;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,42 +8,49 @@ using Microsoft.CodeAnalysis.MSBuild;
 
 namespace CSharpCodeGenerator
 {
-    public class ProjectStructure : DataStructure
+    public class ProjectStructure
     {
-        public readonly Project Project;
-        private Compilation _compilation ;
+        internal readonly Project Project;
+        private Compilation _compilation;
+
+        internal Compilation Compilation => _compilation ?? (_compilation = Project.GetCompilationAsync().Result);
 
         internal ProjectStructure(Project project)
         {
             Project = project;
         }
 
-        public IEnumerable<DocumentStructure> Documents {
-            get
-            {
-                return Project.Documents
-                    .Select(d => new DocumentStructure(d.GetSyntaxRootAsync().Result.SyntaxTree.GetCompilationUnitRoot()));
-            }
-        }
-
         public static ProjectStructure Load(string path)
         {
             var workspace = MSBuildWorkspace.Create();
-            var fixturesProject = workspace.OpenProjectAsync(path);
-            var project = fixturesProject.Result;
+            var projectTask = workspace.OpenProjectAsync(path);
+            var project = projectTask.Result;
 
             return new ProjectStructure(project);
         }
 
+        public IEnumerable<DocumentStructure> Documents => Project.Documents
+            .Select(d => new DocumentStructure(d.GetSyntaxRootAsync().Result.SyntaxTree.GetCompilationUnitRoot()));
+
+        public IEnumerable<ClassStructure> FindClassesWithImplementedInterface(string interfaceName)
+        {
+            return Compilation
+                .SyntaxTrees.Select(syntaxTree => Compilation.GetSemanticModel(syntaxTree))
+                .SelectMany(semanticModel => semanticModel
+                        .SyntaxTree
+                        .GetRoot()
+                        .DescendantNodes()
+                        .OfType<ClassDeclarationSyntax>()
+                            .Where(classSyntax => semanticModel.GetDeclaredSymbol(classSyntax).Interfaces
+                                            .Any(interfaceSymbol => interfaceSymbol.ToDisplayString() == interfaceName)))
+                .Select(classNode => new ClassStructure(classNode));
+        }
+
         public string GetFullTypeName(TypeStructure typeStructure)
         {
-            if (_compilation == null)
-            {
-                _compilation = Project.GetCompilationAsync().Result;
-            }
-
             var typeNode = typeStructure.Node;
-            var semanticModel = _compilation.GetSemanticModel(typeNode.SyntaxTree);
+            var semanticModel = Compilation.GetSemanticModel(typeNode.SyntaxTree);
+
             var typeInfo = semanticModel.GetSpeculativeTypeInfo(typeNode.SpanStart, typeNode, SpeculativeBindingOption.BindAsTypeOrNamespace);
 
             var symbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);

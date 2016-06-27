@@ -1,9 +1,11 @@
 ﻿
 using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CSharpCodeGenerator.DataStructures;
+using Entitas;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -40,7 +42,7 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                 var identifier2 = "testIdentifier2";
                 var type1 = typeof(string);
                 var type2 = typeof(object);
-               
+
                 var tree1 = CSharpSyntaxTree.ParseText($"class Testclass1 {{ public {type1} {identifier1} = 1; }}");
                 var tree2 = CSharpSyntaxTree.ParseText($"class Testclass2 {{ public {type2} {identifier2} = 1; }}");
 
@@ -65,6 +67,32 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                 fullMetadataName1.should_be(type1.FullName);
                 fullMetadataName2.should_be(type2.FullName);
 
+            };
+
+
+            it["returns all classes implementing interface"] = () =>
+            {
+                var identifier1 = "testIdentifier1";
+                var identifier2 = "testIdentifier2";
+                var type1 = typeof(string);
+                var type2 = typeof(IComponent);
+
+                var tree1 = CSharpSyntaxTree.ParseText($"class Testclass1 : Entitas.IComponent {{ public {type1} {identifier1} = 1; }}");
+                var tree2 = CSharpSyntaxTree.ParseText($"class Testclass2 : Entitas.IComponendt {{ public {type2} {identifier2} = 1; }}");
+
+                var workspace = new AdhocWorkspace();
+                var mscorlib = MetadataReference.CreateFromFile(type1.Assembly.Location);
+                var stringlib = MetadataReference.CreateFromFile(type2.Assembly.Location);
+                var project = workspace.AddProject("Test", LanguageNames.CSharp)
+                                            .AddMetadataReference(mscorlib)
+                                            .AddMetadataReference(stringlib)
+                                            .AddDocument("Document1", tree1.GetRoot()).Project
+                                            .AddDocument("Document2", tree2.GetRoot()).Project;
+
+                var projectStructure = new ProjectStructure(project);
+
+                var classes = projectStructure.FindClassesWithImplementedInterface("Entitas.IComponent");
+                classes.Count().should_be(1);
             };
         }
     }

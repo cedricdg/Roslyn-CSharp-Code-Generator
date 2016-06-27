@@ -2,7 +2,7 @@
 
 namespace CSharpCodeGenerator.DataStructures
 {
-    public class MethodStructure : DataStructure
+    public class MethodStructure : NodeStructure
     {
         internal MethodStructure(MethodDeclarationSyntax node)
         {

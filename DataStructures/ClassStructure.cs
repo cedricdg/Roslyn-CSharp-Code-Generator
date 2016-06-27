@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace CSharpCodeGenerator.DataStructures
 {
 
-    public class ClassStructure : DataStructure
+    public class ClassStructure : NodeStructure
     {
         internal readonly ClassDeclarationSyntax Node;
 
@@ -45,7 +45,7 @@ namespace CSharpCodeGenerator.DataStructures
             }
         }
 
-        public IEnumerable<TypeStructure> BaseTypes => Node.BaseList.Types.Select(t => new TypeStructure(t.Type));
+        public IEnumerable<TypeStructure> BaseTypes => Node.BaseList?.Types.Select(t => new TypeStructure(t.Type));
 
 
         private string GetNameSpaceFromParentsRecursive(ClassDeclarationSyntax node)

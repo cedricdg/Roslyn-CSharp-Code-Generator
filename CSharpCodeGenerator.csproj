@@ -34,7 +34,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DataStructures\AttributeStructure.cs" />
     <Compile Include="DataStructures\ClassStructure.cs" />
-    <Compile Include="DataStructures\DataStructure.cs" />
+    <Compile Include="DataStructures\NodeStructure.cs" />
     <Compile Include="DataStructures\DocumentStructure.cs" />
     <Compile Include="DataStructures\FieldStructure.cs" />
     <Compile Include="DataStructures\MethodStructure.cs" />
@@ -42,8 +42,11 @@
     <Compile Include="Helper\ModifierFlags.cs" />
     <Compile Include="Helper\CompilationHelper.cs" />
     <Compile Include="DataStructures\ProjectStructure.cs" />
+    <Compile Include="Writer\ProjectWriter.cs" />
+    <Compile Include="Writer\SourceCodeFile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
