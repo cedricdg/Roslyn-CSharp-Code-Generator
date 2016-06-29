@@ -42,11 +42,12 @@
     <Compile Include="Helper\ModifierFlags.cs" />
     <Compile Include="Helper\CompilationHelper.cs" />
     <Compile Include="DataStructures\ProjectStructure.cs" />
-    <Compile Include="Writer\ProjectWriter.cs" />
+    <Compile Include="Writer\ProjectDeployer.cs" />
     <Compile Include="Writer\SourceCodeFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

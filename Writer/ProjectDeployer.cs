@@ -4,14 +4,14 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 
-namespace CSharpCodeGenerator.Writer
+namespace CSharpCodeGenerator.Deployer
 {
-    class ProjectWriter
+    public class ProjectDeployer
     {
         internal Project Project;
         internal string[] TargetPathFolders;
 
-        public ProjectWriter(string projectPath, string targetFolderPath)
+        public ProjectDeployer(string projectPath, string targetFolderPath)
         {
             var workspace = MSBuildWorkspace.Create();
             
@@ -20,7 +20,7 @@ namespace CSharpCodeGenerator.Writer
             Project = project;
             TargetPathFolders = targetFolderPath.Split('/');
         }
-        internal ProjectWriter(Project project, string targetFolderPath)
+        internal ProjectDeployer(Project project, string targetFolderPath)
         {
             Project = project;
             TargetPathFolders = targetFolderPath.Split('/');

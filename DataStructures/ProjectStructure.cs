@@ -29,8 +29,9 @@ namespace CSharpCodeGenerator
             return new ProjectStructure(project);
         }
 
-        public IEnumerable<DocumentStructure> Documents => Project.Documents
-            .Select(d => new DocumentStructure(d.GetSyntaxRootAsync().Result.SyntaxTree.GetCompilationUnitRoot()));
+        public IEnumerable<DocumentStructure> Documents 
+            => from d in Project.Documents
+                select new DocumentStructure(d.GetSyntaxRootAsync().Result.SyntaxTree.GetCompilationUnitRoot());
 
         public IEnumerable<ClassStructure> FindClassesWithImplementedInterface(string interfaceName)
         {

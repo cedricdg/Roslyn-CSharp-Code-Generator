@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CSharpCodeGenerator.Writer
+﻿namespace CSharpCodeGenerator.Deployer
 {
     public struct SourceCodeFile
     {
-        public string Name;
-        public string Content;
+        public readonly string Name;
+        public readonly string Content;
+        public SourceCodeFile(string name, string content)
+        {
+            Name = name;
+            Content = content;
+        }
+        public SourceCodeFile(SourceCodeFile f)
+        {
+            Name = f.Name;
+            Content = f.Content;
+        }
     }
 }

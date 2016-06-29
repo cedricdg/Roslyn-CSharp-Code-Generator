@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CSharpCodeGenerator.DataStructures;
-using CSharpCodeGenerator.Writer;
+using CSharpCodeGenerator.Deployer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,8 +25,8 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                 var expectedName = "Doc2";
                 var expectedContent = "Content";
 
-                var writer = new ProjectWriter(project, expectedFolder);
-                writer.AddFile(new SourceCodeFile { Content = expectedContent, Name = expectedName });
+                var writer = new ProjectDeployer(project, expectedFolder);
+                writer.AddFile(new SourceCodeFile(expectedName, expectedContent));
                 writer.Project.Documents.Single().Name.should_be(expectedName);
                 writer.Project.Documents.Single().GetTextAsync().Result.ToString().should_be(expectedContent);
                 writer.Project.Documents.Single().Folders.Single().should_be(expectedFolder);
@@ -47,7 +47,7 @@ namespace CSharpCodeGenerator.Tests.DataStructures
                 project = project.AddDocument("InTargetFolderRoot", string.Empty, new[] { targetFolderPath }).Project;
                 project = project.AddDocument("InTargetSubfolder", string.Empty, new[] { targetFolderPath, "test" }).Project;
 
-                var writer = new ProjectWriter(project, targetFolderPath);
+                var writer = new ProjectDeployer(project, targetFolderPath);
                 writer.ClearTargetFolder();
                 writer.Project.Documents.Count().should_be(2);
                 writer.Project.Documents.Any(d => d.Name == expectedName1).should_be_true();

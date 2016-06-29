@@ -18,9 +18,9 @@ namespace CSharpCodeGenerator.DataStructures
         public IEnumerable<ClassStructure> Classes {
             get
             {
-                return Node.DescendantNodes(n => !n.IsKind(SyntaxKind.ClassKeyword))
-                    .Where(m => m.IsKind(SyntaxKind.ClassDeclaration))
-                    .Select((node, index) => new ClassStructure(node as ClassDeclarationSyntax));
+                return from childNode in Node.DescendantNodes(n => !n.IsKind(SyntaxKind.ClassKeyword))
+                    where childNode.IsKind(SyntaxKind.ClassDeclaration)
+                    select new ClassStructure(childNode as ClassDeclarationSyntax);
             }
         }
     }

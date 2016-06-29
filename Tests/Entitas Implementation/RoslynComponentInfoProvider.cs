@@ -10,66 +10,33 @@ namespace Entitas.CodeGenerator
     public class RoslynComponentInfoProvider : ICodeGeneratorDataProvider
     {
         private const string POOL_ATTRIBUTE_IDENTIFIER = "Pool";
-        string[] _poolNames;
-        string[] _blueprintNames;
-        ComponentInfo[] _componentInfos;
         private ProjectStructure _project;
 
-        public string[] blueprintNames
-        {
-            get
-            {
-                return _blueprintNames;
-            }
-        }
+        public string[] blueprintNames { get; }
 
-        public ComponentInfo[] componentInfos
-        {
-            get
-            {
-                return _componentInfos;
-            }
-        }
+        public ComponentInfo[] componentInfos { get; }
 
-        public string[] poolNames
-        {
-            get
-            {
-                return _poolNames;
-            }
-        }
+        public string[] poolNames { get; }
 
 
         public RoslynComponentInfoProvider(ProjectStructure project, string[] poolNames, string[] blueprintNames)
         {
-            _poolNames = poolNames;
-            _blueprintNames = blueprintNames;
+            this.poolNames = poolNames;
+            this.blueprintNames = blueprintNames;
 
             if (project != null)
             {
                 _project = project;
-                
-
-                _componentInfos = GetComponentInfos();
+                componentInfos = GetComponentInfos().ToArray();
             }
         }
 
-        private ComponentInfo[] GetComponentInfos()
+        private IEnumerable<ComponentInfo> GetComponentInfos()
         {
-            // get all syntax nodes where a class is defined
-            // get all information from class
-            var componentInfos = new List<ComponentInfo>();
-            foreach (var document in _project.Documents)
-            {
-                foreach (var classStructure in document.Classes)
-                {
-                    if (IsValidIComponentClass(classStructure))
-                    {
-                        componentInfos.Add(GetComponentInfo(classStructure));
-                    }
-                }
-            }
-            return componentInfos.ToArray();
+            return from document in _project.Documents.AsParallel()
+                        from classStructure in document.Classes
+                            where IsValidIComponentClass(classStructure)
+                            select GetComponentInfo(classStructure);
         }
 
         private bool IsValidIComponentClass(ClassStructure classNode)
@@ -94,24 +61,19 @@ namespace Entitas.CodeGenerator
         {
             var pools = GetPools(classDeclarationNode.Attributes);
             var fullClassName = classDeclarationNode.FullClassName;
-            List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields);
+            List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields).ToList();
             var isSingleEntity = false;
             return new ComponentInfo(fullClassName, publicMemberInfos, pools.ToArray(),
                 isSingleEntity: isSingleEntity, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
         }
 
-        private List<PublicMemberInfo> GetPublicMemberInfos(IEnumerable<FieldStructure> fields)
+        private IEnumerable<PublicMemberInfo> GetPublicMemberInfos(IEnumerable<FieldStructure> fields)
         {
-            var result = new List<PublicMemberInfo>();
-            foreach (var field in fields)
-            {
-                if (field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None))
-                {
-                    result.Add(new PublicMemberInfo(_project.GetFullTypeName(field.DeclarationType), field.Identifier));
-                }
-            }
-            return result;
+            return from field in fields
+                        where field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None)
+                        select new PublicMemberInfo(_project.GetFullTypeName(field.DeclarationType), field.Identifier);
         }
+        
 
         private static IEnumerable<string> GetPools(IEnumerable<AttributeStructure> attributes)
         {
