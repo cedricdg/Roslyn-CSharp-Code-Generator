@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CSharpCodeGenerator;
 using CSharpCodeGenerator.DataStructures;
+using Entitas.CodeGenerator;
 using Entitas.Serialization;
 
-namespace Entitas.CodeGenerator
+namespace CodeGenerator.Roslyn.Providers
 {
     public class RoslynComponentInfoProvider : ICodeGeneratorDataProvider
     {
         private const string POOL_ATTRIBUTE_IDENTIFIER = "Pool";
+        private const string ICOMPONENT_INTERFACE_NAME = "Entitas.IComponent";
         private ProjectStructure _project;
 
         public string[] blueprintNames { get; }
@@ -17,8 +18,7 @@ namespace Entitas.CodeGenerator
         public ComponentInfo[] componentInfos { get; }
 
         public string[] poolNames { get; }
-
-
+        
         public RoslynComponentInfoProvider(ProjectStructure project, string[] poolNames, string[] blueprintNames)
         {
             this.poolNames = poolNames;
@@ -43,13 +43,13 @@ namespace Entitas.CodeGenerator
         {
             if (classNode.ModifierFlags.HasFlag(ModifierFlags.Abstract))
                 return false;
-
-            var interfaceName = "Entitas.IComponent";
+            if (classNode.BaseTypes == null)
+                return false;
 
             foreach (var baseType in classNode.BaseTypes)
             {
                 var name = _project.GetFullTypeName(baseType);
-                if (name.Equals(interfaceName))
+                if (name.Equals(ICOMPONENT_INTERFACE_NAME))
                 {
                     return true;
                 }
@@ -64,7 +64,7 @@ namespace Entitas.CodeGenerator
             List<PublicMemberInfo> publicMemberInfos = GetPublicMemberInfos(classDeclarationNode.Fields).ToList();
             var isSingleEntity = false;
             return new ComponentInfo(fullClassName, publicMemberInfos, pools.ToArray(),
-                isSingleEntity: isSingleEntity, generateMethods: true, generateComponent: true, generateIndex: true, singleComponentPrefix: "is");
+                isSingleEntity: isSingleEntity, generateMethods: true, generateIndex: true, singleComponentPrefix: "is");
         }
 
         private IEnumerable<PublicMemberInfo> GetPublicMemberInfos(IEnumerable<FieldStructure> fields)
@@ -73,7 +73,6 @@ namespace Entitas.CodeGenerator
                         where field.AccessModifier == AccessModifier.Public && field.ModifierFlags.Equals(ModifierFlags.None)
                         select new PublicMemberInfo(_project.GetFullTypeName(field.DeclarationType), field.Identifier);
         }
-        
 
         private static IEnumerable<string> GetPools(IEnumerable<AttributeStructure> attributes)
         {

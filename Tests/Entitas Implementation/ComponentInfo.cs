@@ -47,5 +47,21 @@ namespace Entitas.CodeGenerator
 
             _isSingletonComponent = memberInfos.Count == 0;
         }
+        public ComponentInfo(string fullTypeName, List<PublicMemberInfo> memberInfos, string[] pools,
+            bool isSingleEntity, string singleComponentPrefix, bool generateMethods, bool generateIndex)
+        {
+            _fullTypeName = fullTypeName;
+            _memberInfos = memberInfos;
+            _pools = pools;
+            _isSingleEntity = isSingleEntity;
+            _singleComponentPrefix = singleComponentPrefix;
+            _generateMethods = generateMethods;
+            _generateIndex = generateIndex;
+
+            var nameSplit = fullTypeName.Split('.');
+            _typeName = nameSplit[nameSplit.Length - 1];
+
+            _isSingletonComponent = memberInfos.Count == 0;
+        }
     }
 }

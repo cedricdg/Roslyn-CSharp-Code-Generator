@@ -1,7 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.MSBuild;
 
 namespace CSharpCodeGenerator.Deployer
@@ -28,7 +29,17 @@ namespace CSharpCodeGenerator.Deployer
 
         public void AddFile(SourceCodeFile file)
         {
-            Project = Project.AddDocument(file.Name, file.Content, TargetPathFolders).Project;
+            var document = Project.AddDocument(file.Name, file.Content, TargetPathFolders);
+            Project = document.Project;
+        }
+
+        public void AddFileWithFormatting(SourceCodeFile file)
+        {
+            var fileRootNode = CSharpSyntaxTree.ParseText(file.Content).GetRoot();
+            fileRootNode = Formatter.Format(fileRootNode, Project.Solution.Workspace);
+
+            var document = Project.AddDocument(file.Name, fileRootNode, TargetPathFolders);
+            Project = document.Project;
         }
 
         public void ClearTargetFolder()

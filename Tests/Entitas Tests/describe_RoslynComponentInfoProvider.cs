@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CodeGenerator.Roslyn.Providers;
 using CSharpCodeGenerator;
 using CSharpCodeGenerator.Extensions;
 using Entitas.CodeGenerator;
